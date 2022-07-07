@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { useState } from 'react';
 import {
     Button,
@@ -11,7 +10,7 @@ import {
 import { services, toast } from '../../helpers';
 import axiosService from '../../helpers/axiosService';
 import { Props } from '../../navigate/props';
-
+import Logo from '../Logo';
 export default function Login({ navigation }: Props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +18,7 @@ export default function Login({ navigation }: Props) {
     async function onPressLogin() {
         try {
             const res = await axiosService.login(username, password);
-            if (res.data) {
+            if (res) {
                 navigation.navigate('Main');
             }
         } catch (error: any) {
@@ -36,23 +35,24 @@ export default function Login({ navigation }: Props) {
     return (
         <View style={styles.login}>
             <Text style={styles.hi}>Welcome Back! 👋</Text>
-            <Text style={styles.again}>Hello again, you've been missed!</Text>
+            <Text style={styles.again}>Photo data management application!</Text>
+            <Logo />
             <View style={styles.usernameView}>
-                <Text style={styles.text}>Tên đăng nhập</Text>
+                <Text style={styles.text}>User ID</Text>
                 <TextInput
                     onChangeText={(val) => setUsername(val)}
                     value={username}
                     style={styles.input}
-                    placeholder="Infiniteaa!"
+                    placeholder="User ID"
                 />
             </View>
             <View style={styles.passwordView}>
-                <Text style={styles.text}>Mật khẩu</Text>
+                <Text style={styles.text}>Password</Text>
                 <TextInput
                     onChangeText={(val) => setPassword(val)}
                     value={password}
                     style={styles.input}
-                    placeholder="*******"
+                    placeholder="Password"
                     secureTextEntry={true}
                 />
             </View>
@@ -73,19 +73,20 @@ const styles = StyleSheet.create({
     again: {
         fontWeight: '600',
         fontSize: 14,
-        marginLeft: 29,
         color: '#999EA1',
+        marginBottom: 20,
     },
     login: {
         flex: 1,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     usernameView: {
-        marginTop: 52,
-        marginHorizontal: 27,
+        marginTop: 20,
     },
     passwordView: {
         marginTop: 12,
-        marginHorizontal: 27,
     },
     text: {
         fontWeight: '600',
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     },
     loginBtn: {
         marginHorizontal: 27,
-        marginTop: 64,
+        marginTop: 30,
         backgroundColor: '#4E0189',
         paddingVertical: 11,
         alignItems: 'center',
@@ -114,6 +115,8 @@ const styles = StyleSheet.create({
     loginText: {
         color: 'white',
         fontSize: 17,
+        textAlign: 'center',
         fontWeight: '600',
+        width: 200,
     },
 });

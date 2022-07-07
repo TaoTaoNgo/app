@@ -1,16 +1,11 @@
-// @ts-ignore
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 export default function Home() {
     return (
         <View style={styles.mainView}>
-            <Image
-                style={styles.img}
-                source={require('../../../assets/image/saly-1.png')}
-            />
             <Text style={styles.h3}>Trang chủ</Text>
-            <Text style={styles.body14}>Trang này chả có cái gì đâu !!</Text>
+            <Text style={styles.body14}>Pending</Text>
         </View>
     );
 }

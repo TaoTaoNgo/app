@@ -1,3 +1,3 @@
-import * as url from './url';
+import * as contants from './contants';
 
-export { url };
+export { contants };

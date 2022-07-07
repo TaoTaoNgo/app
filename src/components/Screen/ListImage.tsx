@@ -1,7 +1,6 @@
-// @ts-ignore
 import React, { useEffect, useState } from 'react';
 import {
-    ActivityIndicator, Button,
+    ActivityIndicator,
     FlatList,
     Image,
     ListRenderItem,
@@ -10,11 +9,13 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { baseUrl } from '../../constants/url';
-import { services, toast } from '../../helpers';
+import { toast } from '../../helpers';
 import { Props } from '../../navigate/props';
 import axiosService from '../../helpers/axiosService';
-
+import { contants } from '../../constants';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import stringInject from 'stringinject';
 interface IItem {
     imgid: string;
     imgname: string;
@@ -26,8 +27,6 @@ interface IItem {
     status: string;
     likenum: number;
 }
-const exampleImgUrl =
-    'https://yt3.ggpht.com/g3j3iOUOPhNxBCNAArBqiYGzHzCBIzr_Al8mdvtBJeZMGFDblnU5rlVUt6GY01AUwm7Cp70J=s900-c-k-c0x00ffffff-no-rj';
 
 export default function ListImage({ route, navigation }: Props) {
     const [data, setData] = useState([]);
@@ -45,9 +44,16 @@ export default function ListImage({ route, navigation }: Props) {
 
     async function getListImg() {
         try {
+            // const res = await axiosService.get(
+            //     `${baseUrl}/dictionary/${route.params.dicid}/img`,
+            // );
             const res = await axiosService.get(
-                `${baseUrl}/dictionary/${route.params.dicid}/img`,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                stringInject(contants.API_PATH.IMG_GET_LIST_BY_ID, {
+                    dicid: route.params.dicid,
+                }),
             );
+            console.log(res.data);
             setData(res.data);
         } catch (error) {
             return toast.errToast(error);
@@ -63,7 +69,7 @@ export default function ListImage({ route, navigation }: Props) {
     const itemOnPress = (item: IItem) => {
         return navigation.navigate('ViewImage', {
             imgName: item.imgname,
-            uri: exampleImgUrl, //uri: item.url,
+            uri: contants.IMAGE_HOST + item.url, //uri: item.url,
         });
     };
 
@@ -76,7 +82,7 @@ export default function ListImage({ route, navigation }: Props) {
                 <View style={styles.nameView}>
                     <Image
                         source={{
-                            uri: exampleImgUrl, // uri: item.url,
+                            uri: contants.IMAGE_HOST + item.url, // uri: item.url,
                         }}
                         style={styles.miniImg}
                     />
@@ -93,7 +99,15 @@ export default function ListImage({ route, navigation }: Props) {
 
     return (
         <View style={styles.mainView}>
-            <Button onPress={navigation.goBack} title={'Back'}></Button>
+            {/*<TouchableOpacity*/}
+            {/*    onPress={navigation.goBack}*/}
+            {/*    style={styles.container}*/}
+            {/*>*/}
+            {/*    <Image*/}
+            {/*        style={styles.image}*/}
+            {/*        source={require('../../assets/arrow_back.png')}*/}
+            {/*    />*/}
+            {/*</TouchableOpacity>*/}
             <View style={styles.headerView}>
                 <Text>Tên file</Text>
                 <Text>Ngày tạo</Text>
@@ -109,13 +123,22 @@ export default function ListImage({ route, navigation }: Props) {
                     data={data}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.imgid}
-                ></FlatList>
+                />
             )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        top: 10,
+        left: 4,
+    },
+    image: {
+        width: 24,
+        height: 24,
+    },
     miniImg: { width: 50, height: 50, marginRight: 8 },
     loadingView: {
         marginTop: 30,

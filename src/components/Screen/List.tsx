@@ -10,7 +10,7 @@ import {
     View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { baseUrl } from '../../constants/url';
+import { baseUrl } from '../../constants/contants';
 import { services, toast } from '../../helpers';
 import { Props } from '../../navigate/props';
 import axiosService from '../../helpers/axiosService';

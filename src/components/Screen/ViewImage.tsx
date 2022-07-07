@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { useState } from 'react';
 import { ActivityIndicator, Dimensions, Image, View } from 'react-native';
 import { PropsViewImage } from '../../navigate/props';
@@ -11,17 +10,12 @@ export default function ViewImage({ route }: PropsViewImage) {
         <View
             style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
         >
-            <ActivityIndicator
-                size="large"
-                color={'#4E0189'}
-                style={{ display: loading ? 'flex' : 'none' }}
-            />
             <Image
                 onLoadStart={() => {
-                    setLoading(true);
+                    setLoading(false);
                 }}
                 onLoadEnd={() => setLoading(false)}
-                source={{ uri: route.params.uri, method: 'GET' }}
+                source={{ uri: route.params.uri }}
                 style={{
                     height: wWidth,
                     aspectRatio: 1,
