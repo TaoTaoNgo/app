@@ -1,56 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ActivityIndicator,
     FlatList,
-    Image,
     ListRenderItem,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
 } from 'react-native';
-import { toast } from '../../helpers';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { baseUrl } from '../../constants/contants';
+import { services, toast } from '../../helpers';
 import { Props } from '../../navigate/props';
 import axiosService from '../../helpers/axiosService';
 import { contants } from '../../constants';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import stringInject from 'stringinject';
+
 interface IItem {
-    imgid: string;
-    imgname: string;
-    memo: any;
     dicid: string;
+    dicname: string;
     registrationetime: string;
     updatetime: string;
-    url: string;
+    savedir: string;
+    userid: string;
     status: string;
-    likenum: number;
+    imgnum: number;
 }
 
-export default function ListImage({ route, navigation }: Props) {
+export default function Dictionary({ navigation }: Props) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetch() {
             setLoading(true);
-            await getListImg();
+            await getListDic();
             setLoading(false);
         }
 
         fetch();
     }, []);
 
-    async function getListImg() {
+    async function getListDic() {
         try {
-            const res = await axiosService.get(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                stringInject(contants.API_PATH.IMG_GET_LIST_BY_ID, {
-                    dicid: route.params.dicid,
-                }),
-            );
-            console.log(res.data);
+            const res = await axiosService.get(contants.API_PATH.DIC_GET_ALL);
             setData(res.data);
         } catch (error) {
             return toast.errToast(error);
@@ -64,9 +56,8 @@ export default function ListImage({ route, navigation }: Props) {
     }
 
     const itemOnPress = (item: IItem) => {
-        return navigation.navigate('ViewImage', {
-            imgName: item.imgname,
-            uri: contants.IMAGE_HOST + item.url, //uri: item.url,
+        return navigation.navigate('ListImage', {
+            dicid: item.dicid,
         });
     };
 
@@ -77,37 +68,24 @@ export default function ListImage({ route, navigation }: Props) {
                 onPress={() => itemOnPress(item)}
             >
                 <View style={styles.nameView}>
-                    <Image
-                        source={{
-                            uri: contants.IMAGE_HOST + item.url, // uri: item.url,
-                        }}
-                        style={styles.miniImg}
-                    />
+                    <Ionicons name="folder" size={24} style={styles.icon} />
                     <View>
-                        <Text style={styles.title}>{item.imgname}</Text>
+                        <Text style={styles.title}>{item.dicname}</Text>
+                        <Text style={styles.time}>
+                            {getTime(item.registrationetime)}
+                        </Text>
                     </View>
                 </View>
-                <Text style={styles.time}>
-                    {getTime(item.registrationetime)}
-                </Text>
+                <Text>{item.userid}</Text>
             </TouchableOpacity>
         );
     };
 
     return (
         <View style={styles.mainView}>
-            {/*<TouchableOpacity*/}
-            {/*    onPress={navigation.goBack}*/}
-            {/*    style={styles.container}*/}
-            {/*>*/}
-            {/*    <Image*/}
-            {/*        style={styles.image}*/}
-            {/*        source={require('../../assets/arrow_back.png')}*/}
-            {/*    />*/}
-            {/*</TouchableOpacity>*/}
             <View style={styles.headerView}>
-                <Text>Tên file</Text>
-                <Text>Ngày tạo</Text>
+                <Text>Tên thư mục</Text>
+                <Text>Tác giả</Text>
             </View>
             {loading ? (
                 <View style={styles.loadingView}>
@@ -119,7 +97,7 @@ export default function ListImage({ route, navigation }: Props) {
                     style={styles.list}
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.imgid}
+                    keyExtractor={(item) => item.dicid}
                 />
             )}
         </View>
@@ -127,16 +105,6 @@ export default function ListImage({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        top: 10,
-        left: 4,
-    },
-    image: {
-        width: 24,
-        height: 24,
-    },
-    miniImg: { width: 50, height: 50, marginRight: 8 },
     loadingView: {
         marginTop: 30,
         alignItems: 'center',
@@ -155,6 +123,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginBottom: 10,
+    },
+    icon: {
+        marginHorizontal: 10,
     },
     title: { fontSize: 16, fontWeight: '400' },
     time: {

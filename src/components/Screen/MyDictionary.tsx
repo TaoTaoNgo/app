@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { useState, useEffect } from 'react';
 import {
     ActivityIndicator,
@@ -10,10 +9,10 @@ import {
     View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { baseUrl } from '../../constants/contants';
-import { services, toast } from '../../helpers';
+import { toast } from '../../helpers';
 import { Props } from '../../navigate/props';
 import axiosService from '../../helpers/axiosService';
+import { contants } from '../../constants';
 
 interface IItem {
     dicid: string;
@@ -26,7 +25,7 @@ interface IItem {
     imgnum: number;
 }
 
-export default function List({ navigation }: Props) {
+export default function MyDictionary({ navigation }: Props) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -42,7 +41,9 @@ export default function List({ navigation }: Props) {
 
     async function getListDic() {
         try {
-            const res = await axiosService.get(`${baseUrl}/dictionary`);
+            const res = await axiosService.get(
+                contants.API_PATH.DIC_GET_OF_USER,
+            );
             setData(res.data);
         } catch (error) {
             return toast.errToast(error);
@@ -58,7 +59,6 @@ export default function List({ navigation }: Props) {
     const itemOnPress = (item: IItem) => {
         return navigation.navigate('ListImage', {
             dicid: item.dicid,
-            dicName: item.dicname,
         });
     };
 

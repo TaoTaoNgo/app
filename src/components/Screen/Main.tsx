@@ -2,7 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { toast } from '../../helpers';
 import Home from './Home';
-import List from './List';
+import Dictionary from './Dictionary';
+import MyDictionary from './MyDictionary';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +19,11 @@ export default function Main() {
                             iconName = focused ? 'home' : 'home-outline';
                             break;
                         }
-                        case 'List': {
+                        case 'Dictionary': {
+                            iconName = focused ? 'list' : 'list-outline';
+                            break;
+                        }
+                        case 'My Dictionary': {
                             iconName = focused ? 'list' : 'list-outline';
                             break;
                         }
@@ -53,10 +58,17 @@ export default function Main() {
                 }}
             />
             <Tab.Screen
-                name="List"
-                component={List}
+                name="Dictionary"
+                component={Dictionary}
                 options={{
-                    title: 'Danh sách thư viện',
+                    title: 'Dictionary',
+                }}
+            />
+            <Tab.Screen
+                name="My Dictionary"
+                component={MyDictionary}
+                options={{
+                    title: 'My Dictionary',
                 }}
             />
         </Tab.Navigator>
