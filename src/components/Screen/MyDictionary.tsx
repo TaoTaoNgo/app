@@ -59,6 +59,7 @@ export default function MyDictionary({ navigation }: Props) {
     const itemOnPress = (item: IItem) => {
         return navigation.navigate('ListImage', {
             dicid: item.dicid,
+            dicName: item.dicname,
         });
     };
 

@@ -4,6 +4,7 @@ export type RootStackParamList = {
     Login: undefined;
     Main: undefined;
     ListImage: {
+        dicName: string;
         dicid: string;
     };
     ViewImage: {

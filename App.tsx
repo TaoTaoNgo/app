@@ -37,7 +37,7 @@ export default function App() {
                         component={ListImage}
                         options={({ route }) => ({
                             animation: 'slide_from_right',
-                            title: route.params.dicid,
+                            title: route.params.dicName,
                         })}
                     />
                     <Stack.Screen
