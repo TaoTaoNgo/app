@@ -17,6 +17,7 @@ export default function Login({ navigation }: Props) {
 
     async function onPressLogin() {
         try {
+            await axiosService.login(username, password);
             const res = await axiosService.login(username, password);
             if (res) {
                 navigation.navigate('Main');

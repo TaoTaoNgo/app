@@ -4,6 +4,7 @@ import { toast } from '../../helpers';
 import Home from './Home';
 import Dictionary from './Dictionary';
 import MyDictionary from './MyDictionary';
+import Account from './Account';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,11 +21,17 @@ export default function Main() {
                             break;
                         }
                         case 'Dictionary': {
-                            iconName = focused ? 'list' : 'list-outline';
+                            iconName = focused ? 'folder-open-sharp' : 'folder';
                             break;
                         }
                         case 'My Dictionary': {
-                            iconName = focused ? 'list' : 'list-outline';
+                            iconName = focused ? 'folder-open-sharp' : 'folder';
+                            break;
+                        }
+                        case 'Account': {
+                            iconName = focused
+                                ? 'person-circle'
+                                : 'person-circle-outline';
                             break;
                         }
                         default: {
@@ -69,6 +76,13 @@ export default function Main() {
                 component={MyDictionary}
                 options={{
                     title: 'My Dictionary',
+                }}
+            />
+            <Tab.Screen
+                name="Account"
+                component={Account}
+                options={{
+                    title: 'Account',
                 }}
             />
         </Tab.Navigator>
