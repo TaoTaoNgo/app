@@ -1,8 +1,8 @@
-export const baseUrl = 'http://localhost:8080';
+export const baseUrl = 'http://192.168.0.100:8080';
 export const loginUrl = `${baseUrl}/auth/login`;
-export const API = 'http://localhost:8080';
-export const IMAGE_HOST = 'http://localhost:4000/dictionary/';
-export const SOCKET_IO_SERVER = 'http://localhost:8080';
+export const API = 'http://192.168.0.100:8080';
+export const IMAGE_HOST = 'http://192.168.0.100:4000/dictionary/';
+export const SOCKET_IO_SERVER = 'http://192.168.0.100:8080';
 export const REQUEST_TIMEOUT = 2000;
 export const MESSAGE = {
     W001: {
